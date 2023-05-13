@@ -1,0 +1,260 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6148811256998728927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2560595293869261808}
+  m_Layer: 0
+  m_Name: RoofVent_Set_R_snaps018
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2560595293869261808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6148811256998728927}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1850984768684789776}
+  - {fileID: 5538539866656041734}
+  - {fileID: 2027361788928149170}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &2062601769273689068
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2560595293869261808}
+    m_Modifications:
+    - target: {fileID: 373747876338896860, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_Name
+      value: RoofVent_Body_R_snaps018
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d2bbb8daf8fce324abc120fb337f89b2, type: 3}
+--- !u!4 &1850984768684789776 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 373747876338799612, guid: d2bbb8daf8fce324abc120fb337f89b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2062601769273689068}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8178206961919620217
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2560595293869261808}
+    m_Modifications:
+    - target: {fileID: 4441124607587550047, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_Name
+      value: RoofVent_Pipe_snaps018
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b45860ec1eec1964b9a94bc08b43ef6e, type: 3}
+--- !u!4 &5538539866656041734 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4441124607587983231, guid: b45860ec1eec1964b9a94bc08b43ef6e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8178206961919620217}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8845916663159100221
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2560595293869261808}
+    m_Modifications:
+    - target: {fileID: 7413383037801089455, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_Name
+      value: RoofVent_Vent_snaps018
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0035886667
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.7499643
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 06d727c011b97ce49993caf2af844457, type: 3}
+--- !u!4 &2027361788928149170 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7413383037801321871, guid: 06d727c011b97ce49993caf2af844457,
+    type: 3}
+  m_PrefabInstance: {fileID: 8845916663159100221}
+  m_PrefabAsset: {fileID: 0}
