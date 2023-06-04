@@ -9,7 +9,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
     private CharacterController characterController;
     private PlayerInput playerInput;
     private Animator playerAnimator;
-    public Camera playerCamera;
+    private Camera playerCamera;
     public GameObject statsContainer;
 
     [Header("Movement Variables")]
@@ -19,7 +19,6 @@ public class PlayerFPSCharacterController : MonoBehaviour
     private float rotationX = 0;
     private bool isMovementPressed;
     private bool isRunPressed;
-    private bool isStatsShowed;
 
     [Header("Jump Variables")]
     private bool isJumpPressed = false;
@@ -44,6 +43,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
         playerInput = new PlayerInput();
         characterController = GetComponent<CharacterController>();
         playerAnimator = GetComponentInChildren<Animator>();
+        playerCamera = Camera.main;
 
         // Handle "Movement" input
         playerInput.Default.Move.started += OnMovementInput;
@@ -130,16 +130,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
 
     void OnStatisticsInput(InputAction.CallbackContext context)
     {
-        if (isStatsShowed == false)
-        {
-            isStatsShowed = true;
-            statsContainer.SetActive(true);
-        }
-        else
-        {
-            isStatsShowed = false;
-            statsContainer.SetActive(false);
-        }
+
     }
 
     void AnimationHandler()
