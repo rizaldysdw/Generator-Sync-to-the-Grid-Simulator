@@ -8,9 +8,10 @@ public class PlayerFPSCharacterController : MonoBehaviour
     [Header("GameObject & Component References")]
     private CharacterController characterController;
     private PlayerInput playerInput;
+    private PlayerUIHandler playerUIHandler;
+    private GasTurbineController gasTurbineController;
     private Animator playerAnimator;
     private Camera playerCamera;
-    public GameObject statsContainer;
 
     [Header("Movement Variables")]
     private Vector2 currentMovementInput;
@@ -44,6 +45,8 @@ public class PlayerFPSCharacterController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         playerAnimator = GetComponentInChildren<Animator>();
         playerCamera = Camera.main;
+        playerUIHandler = GetComponent<PlayerUIHandler>();
+        gasTurbineController = FindObjectOfType<GasTurbineController>();
 
         // Handle "Movement" input
         playerInput.Default.Move.started += OnMovementInput;
@@ -60,6 +63,9 @@ public class PlayerFPSCharacterController : MonoBehaviour
 
         // Handle "Statistics" input
         playerInput.Default.Statistics.performed += OnStatisticsInput;
+
+        // Handle "Interact" input
+        playerInput.Default.Interact.performed += OnInteractInput;
 
         // Animator Controller optimization
         isWalkingHash = Animator.StringToHash("isWalking");
@@ -130,7 +136,12 @@ public class PlayerFPSCharacterController : MonoBehaviour
 
     void OnStatisticsInput(InputAction.CallbackContext context)
     {
+        playerUIHandler.ToggleStatsContainer();
+    }
 
+    void OnInteractInput(InputAction.CallbackContext context)
+    {
+        gasTurbineController.ToggleTurbineOperation();
     }
 
     void AnimationHandler()
