@@ -7,7 +7,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
 {
     [Header("GameObject & Component References")]
     private CharacterController characterController;
-    private PlayerInput playerInput;
+    public PlayerInput playerInput;
     private PlayerUIHandler playerUIHandler;
     private GasTurbineController gasTurbineController;
     private Animator playerAnimator;
