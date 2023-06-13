@@ -37,7 +37,7 @@ public class PlayerInteractionHandler : MonoBehaviour
             {
                 playerUIHandler.UpdatePromptText(interactable.promptMessage);
 
-                if (playerFPSCharacterController.playerInput.Default.Interact.triggered)
+                if (playerFPSCharacterController.playerInput.Gameplay.Interact.triggered)
                 {
                     interactable.BaseInteract();
                 }

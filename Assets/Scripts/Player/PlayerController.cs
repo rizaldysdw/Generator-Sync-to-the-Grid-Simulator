@@ -36,12 +36,12 @@ public class PlayerController : MonoBehaviour
         controller = GetComponent<CharacterController>();
 
         // Handle "Movement" input
-        playerInput.Default.Move.started += OnMovementInput;
-        playerInput.Default.Move.performed += OnMovementInput;
-        playerInput.Default.Move.canceled += OnMovementInput;
+        playerInput.Gameplay.Move.started += OnMovementInput;
+        playerInput.Gameplay.Move.performed += OnMovementInput;
+        playerInput.Gameplay.Move.canceled += OnMovementInput;
 
         // Handle "Statistics" input
-        playerInput.Default.Statistics.performed += OnStatisticsInput;
+        playerInput.Gameplay.Statistics.performed += OnStatisticsInput;
     }
 
     void Update()
@@ -152,11 +152,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInput.Default.Enable();
+        playerInput.Gameplay.Enable();
     }
 
     private void OnDisable()
     {
-        playerInput.Default.Disable();
+        playerInput.Gameplay.Disable();
     }
 }

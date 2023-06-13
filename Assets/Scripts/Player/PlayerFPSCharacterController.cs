@@ -49,23 +49,23 @@ public class PlayerFPSCharacterController : MonoBehaviour
         gasTurbineController = FindObjectOfType<GasTurbineController>();
 
         // Handle "Movement" input
-        playerInput.Default.Move.started += OnMovementInput;
-        playerInput.Default.Move.performed += OnMovementInput;
-        playerInput.Default.Move.canceled += OnMovementInput;
+        playerInput.Gameplay.Move.started += OnMovementInput;
+        playerInput.Gameplay.Move.performed += OnMovementInput;
+        playerInput.Gameplay.Move.canceled += OnMovementInput;
 
         // Handle "Run" input
-        playerInput.Default.Run.started += OnRunInput;
-        playerInput.Default.Run.canceled += OnRunInput;
+        playerInput.Gameplay.Run.started += OnRunInput;
+        playerInput.Gameplay.Run.canceled += OnRunInput;
 
         // Handle "Jump" input
-        playerInput.Default.Jump.started += OnJumpInput;
-        playerInput.Default.Jump.canceled += OnJumpInput;
+        playerInput.Gameplay.Jump.started += OnJumpInput;
+        playerInput.Gameplay.Jump.canceled += OnJumpInput;
 
         // Handle "Statistics" input
-        playerInput.Default.Statistics.performed += OnStatisticsInput;
+        playerInput.Gameplay.Statistics.performed += OnStatisticsInput;
 
         // Handle "Interact" input
-        playerInput.Default.Interact.performed += OnInteractInput;
+        playerInput.Gameplay.Interact.performed += OnInteractInput;
 
         // Animator Controller optimization
         isWalkingHash = Animator.StringToHash("isWalking");
@@ -74,9 +74,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
 
     void Start()
     {
-        // Lock cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        LockCursor();
     }
 
     void Update()
@@ -113,6 +111,10 @@ public class PlayerFPSCharacterController : MonoBehaviour
         characterController.Move(moveDirection * Time.deltaTime);
 
         AnimationHandler();
+    }
+
+    void LateUpdate()
+    {
         RotationHandler();
     }
 
@@ -175,7 +177,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
     {
         if (canMove)
         {
-            mouseInput = Mouse.current.delta.ReadValue();
+            mouseInput = playerInput.Gameplay.Look.ReadValue<Vector2>();
             float mouseX = mouseInput.x;
             float mouseY = mouseInput.y;
 
@@ -186,13 +188,27 @@ public class PlayerFPSCharacterController : MonoBehaviour
         }
     }
 
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
     void OnEnable()
     {
-        playerInput.Default.Enable();
+        playerInput.Gameplay.Enable();
+        playerInput.UI.Enable();
     }
 
     void OnDisable()
     {
-        playerInput.Default.Disable();
+        playerInput.Gameplay.Disable();
+        playerInput.UI.Disable();
     }
 }
