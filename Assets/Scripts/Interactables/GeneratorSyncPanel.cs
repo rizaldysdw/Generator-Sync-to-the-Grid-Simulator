@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class GeneratorSyncPanel : Interactable
 {
+    [Header("References from Player-related Scripts")]
     private PlayerFPSCharacterController playerFPSCharacterController;
-    private PlayerUIHandler playerUIHandler;
-    private PlayerInteractionHandler playerInteractionHandler;
     private PlayerInput playerInput;
+    private PlayerInteractionHandler playerInteractionHandler;
+    private PlayerUIHandler playerUIHandler;
 
+    [Header("References from Generator and Grid Scripts")]
+    private GTGController GTGController;
+    private PlantManager plantManager;
+
+    [Header("References for Generator Sync Panel")]
     [SerializeField] private GameObject generatorSyncUI;
+    [SerializeField] private GameObject sychroscopeNeedle;
+    private float sychroscopeNeedleRotationAngle;
+    private float generatorRotationSpeed;
+    private float generatorVoltage;
+    private float generatorFrequency;
+    private float gridFrequency;
+    private float gridVoltage;
     private bool isGeneratorSyncUIActive;
 
     // Start is called before the first frame update
@@ -25,25 +38,7 @@ public class GeneratorSyncPanel : Interactable
     // Update is called once per frame
     void Update()
     {
-        if (isGeneratorSyncUIActive && playerInput.UI.Pause.triggered)
-        {
-            isGeneratorSyncUIActive = false;
-
-            // Deactivate Generator Sync UI
-            generatorSyncUI.SetActive(false);
-
-            // Enable PlayerInteractionHandler script
-            playerInteractionHandler.enabled = true;
-
-            // Disable Gameplay Action Map
-            playerFPSCharacterController.playerInput.Gameplay.Enable();
-
-            // Enable UI Action Map
-            playerFPSCharacterController.playerInput.UI.Disable();
-            
-            // Lock cursor
-            playerFPSCharacterController.LockCursor();
-        }
+        ExitGeneratorSyncPanelUI();
     }
 
     protected override void Interact()
@@ -70,6 +65,30 @@ public class GeneratorSyncPanel : Interactable
 
             // Unlock cursor
             playerFPSCharacterController.UnlockCursor();
+        }
+    }
+
+    private void ExitGeneratorSyncPanelUI()
+    {
+        if (isGeneratorSyncUIActive && playerInput.UI.Pause.triggered)
+        {
+            // Set bool to false
+            isGeneratorSyncUIActive = false;
+
+            // Deactivate Generator Sync UI
+            generatorSyncUI.SetActive(false);
+
+            // Enable PlayerInteractionHandler script
+            playerInteractionHandler.enabled = true;
+
+            // Disable Gameplay Action Map
+            playerFPSCharacterController.playerInput.Gameplay.Enable();
+
+            // Enable UI Action Map
+            playerFPSCharacterController.playerInput.UI.Disable();
+            
+            // Lock cursor
+            playerFPSCharacterController.LockCursor();
         }
     }
 }

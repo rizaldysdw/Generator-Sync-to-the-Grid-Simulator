@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
-    private float frequency;
+    public float frequency = 50f;
     private float current;
     private float voltage;
     private float anglePhase;

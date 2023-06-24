@@ -9,7 +9,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
     private CharacterController characterController;
     public PlayerInput playerInput;
     private PlayerUIHandler playerUIHandler;
-    private GasTurbineController gasTurbineController;
+    private GTGController gtgController;
     private Animator playerAnimator;
     private Camera playerCamera;
 
@@ -46,7 +46,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
         playerAnimator = GetComponentInChildren<Animator>();
         playerCamera = Camera.main;
         playerUIHandler = GetComponent<PlayerUIHandler>();
-        gasTurbineController = FindObjectOfType<GasTurbineController>();
+        gtgController = FindObjectOfType<GTGController>();
 
         // Handle "Movement" input
         playerInput.Gameplay.Move.started += OnMovementInput;
@@ -143,7 +143,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
 
     void OnInteractInput(InputAction.CallbackContext context)
     {
-        gasTurbineController.ToggleTurbineOperation();
+        gtgController.ToggleTurbineOperation();
     }
 
     void AnimationHandler()
