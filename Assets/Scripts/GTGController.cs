@@ -11,7 +11,6 @@ public class GTGController : MonoBehaviour
     public float frequency; // in Hertz (Hz)
 
     public bool isRunning;
-    public bool isSynchronized;
 
     private const float baseFrequency = 50f; // Base frequency in Hz
 

@@ -7,6 +7,7 @@ public class SynchroscopeController : MonoBehaviour
     public Transform needle; // Reference to the synchroscope needle GameObject
     private GTGController gtgController; // Reference to the GTGController script
     private GridManager gridManager; // Reference to the GridManager script
+    private GeneratorSyncPanel generatorSyncPanel; // Reference to the GeneratorSyncPanel script
     
     private float rotationSpeed = 100f; // Speed at which the needle rotates
 
@@ -14,18 +15,19 @@ public class SynchroscopeController : MonoBehaviour
     {
         gtgController = FindObjectOfType<GTGController>();
         gridManager = FindObjectOfType<GridManager>();
+        generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
     }
 
     private void Update()
     {
         // Compare the generator frequency with the grid frequency
-        if (!gtgController.isSynchronized && gtgController.frequency > gridManager.frequency)
+        if (!generatorSyncPanel.isSynchronized && gtgController.frequency > gridManager.frequency)
         {
             // Generator frequency is higher than grid frequency
             // Rotate the synchroscope needle clockwise
             needle.Rotate(0f, 0f, -rotationSpeed * Time.deltaTime);
         }
-        else if (!gtgController.isSynchronized && gtgController.frequency < gridManager.frequency)
+        else if (!generatorSyncPanel.isSynchronized && gtgController.frequency < gridManager.frequency)
         {
             // Generator frequency is lower than grid frequency
             // Rotate the synchroscope needle counterclockwise

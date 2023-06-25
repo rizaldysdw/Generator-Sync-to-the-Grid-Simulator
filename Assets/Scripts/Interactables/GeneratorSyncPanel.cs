@@ -16,14 +16,8 @@ public class GeneratorSyncPanel : Interactable
 
     [Header("References for Generator Sync Panel")]
     [SerializeField] private GameObject generatorSyncUI;
-    [SerializeField] private GameObject sychroscopeNeedle;
-    private float sychroscopeNeedleRotationAngle;
-    private float generatorRotationSpeed;
-    private float generatorVoltage;
-    private float generatorFrequency;
-    private float gridFrequency;
-    private float gridVoltage;
     private bool isGeneratorSyncUIActive;
+    public bool isSynchronized;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +32,10 @@ public class GeneratorSyncPanel : Interactable
     // Update is called once per frame
     void Update()
     {
-        ExitGeneratorSyncPanelUI();
+        if (isGeneratorSyncUIActive && playerInput.UI.Pause.triggered)
+        {
+            ExitGeneratorSyncPanelUI();
+        }
     }
 
     protected override void Interact()
@@ -70,8 +67,6 @@ public class GeneratorSyncPanel : Interactable
 
     private void ExitGeneratorSyncPanelUI()
     {
-        if (isGeneratorSyncUIActive && playerInput.UI.Pause.triggered)
-        {
             // Set bool to false
             isGeneratorSyncUIActive = false;
 
@@ -89,6 +84,5 @@ public class GeneratorSyncPanel : Interactable
             
             // Lock cursor
             playerFPSCharacterController.LockCursor();
-        }
     }
 }
