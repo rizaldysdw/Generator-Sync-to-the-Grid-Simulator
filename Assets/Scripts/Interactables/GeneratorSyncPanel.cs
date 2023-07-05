@@ -9,6 +9,7 @@ public class GeneratorSyncPanel : Interactable
     private PlayerInput playerInput;
     private PlayerInteractionHandler playerInteractionHandler;
     private PlayerUIHandler playerUIHandler;
+    [SerializeField] private GameObject playerCrosshair;
 
     [Header("References from Generator and Grid Scripts")]
     private GTGController GTGController;
@@ -45,6 +46,9 @@ public class GeneratorSyncPanel : Interactable
             // Set bool to true
             isGeneratorSyncUIActive = true;
 
+            // Deactivaate Player Crosshair UI
+            playerCrosshair.SetActive(false);
+
             // Activate Generator Sync UI
             generatorSyncUI.SetActive(true);
 
@@ -70,6 +74,9 @@ public class GeneratorSyncPanel : Interactable
             // Set bool to false
             isGeneratorSyncUIActive = false;
 
+            // Activate Player Crosshair UI
+            playerCrosshair.SetActive(true);
+
             // Deactivate Generator Sync UI
             generatorSyncUI.SetActive(false);
 
@@ -84,5 +91,10 @@ public class GeneratorSyncPanel : Interactable
             
             // Lock cursor
             playerFPSCharacterController.LockCursor();
+    }
+
+    public void ToggleGeneratorCircuitBreaker()
+    {
+        isSynchronized = !isSynchronized;
     }
 }

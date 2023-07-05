@@ -65,7 +65,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
         playerInput.Gameplay.Statistics.performed += OnStatisticsInput;
 
         // Handle "Interact" input
-        playerInput.Gameplay.Interact.performed += OnInteractInput;
+        // playerInput.Gameplay.Interact.performed += OnInteractInput;
 
         // Animator Controller optimization
         isWalkingHash = Animator.StringToHash("isWalking");
@@ -143,7 +143,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
 
     void OnInteractInput(InputAction.CallbackContext context)
     {
-        gtgController.ToggleTurbineOperation();
+        // This method is used to call Interact input from this script
     }
 
     void AnimationHandler()
