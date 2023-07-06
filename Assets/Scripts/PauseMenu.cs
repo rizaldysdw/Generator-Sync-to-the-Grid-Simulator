@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public bool isGamePaused;
+    private string sceneNameToLoad;
 
     public GameObject pauseMenu;
     private PlayerFPSCharacterController playerController;
@@ -48,9 +49,10 @@ public class PauseMenu : MonoBehaviour
         playerController.LockCursor();
     }
 
-    public void ExitToMainMenuButton()
+    public void ExitToMainMenuButton(string sceneNameToLoad)
     {
-        SceneManager.LoadScene("MainMenu");
+        LoadingData.sceneToLoad = sceneNameToLoad;
+        SceneManager.LoadScene("LoadingScreen");
         Time.timeScale = 1f;
         isGamePaused = false;
     }

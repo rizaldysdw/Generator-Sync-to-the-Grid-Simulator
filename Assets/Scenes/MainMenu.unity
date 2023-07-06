@@ -941,13 +941,13 @@ MonoBehaviour:
       - m_Target: {fileID: 1660196950}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: PlayButton
-        m_Mode: 1
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: MainScene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1144501402
@@ -1095,6 +1095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e58ed182beb82649953cd38e27a2e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneNameToLoad: 
 --- !u!4 &1660196951
 Transform:
   m_ObjectHideFlags: 0

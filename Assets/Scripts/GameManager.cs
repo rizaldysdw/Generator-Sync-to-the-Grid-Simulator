@@ -11,7 +11,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    // Awake is called before Start
+    public string sceneNameToLoad;
+
     void Awake()
     {
         if (Instance != null)
@@ -24,15 +25,10 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlayButton(string sceneNameToLoad)
     {
-        
-    }
-
-    public void PlayButton()
-    {
-        SceneManager.LoadScene("MainScene");
+        LoadingData.sceneToLoad = sceneNameToLoad;
+        SceneManager.LoadScene("LoadingScreen");
     }
 
     public void ExitButton()
