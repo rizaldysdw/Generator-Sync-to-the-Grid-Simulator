@@ -9,6 +9,7 @@ public class GeneratorSyncPanel : Interactable
     private PlayerInput playerInput;
     private PlayerInteractionHandler playerInteractionHandler;
     private PlayerUIHandler playerUIHandler;
+    private PauseMenu pauseMenu;
     [SerializeField] private GameObject playerCrosshair;
 
     [Header("References from Generator and Grid Scripts")]
@@ -17,7 +18,7 @@ public class GeneratorSyncPanel : Interactable
 
     [Header("References for Generator Sync Panel")]
     [SerializeField] private GameObject generatorSyncUI;
-    private bool isGeneratorSyncUIActive;
+    public bool isGeneratorSyncUIActive;
     public bool isSynchronized;
 
     // Start is called before the first frame update
@@ -26,6 +27,7 @@ public class GeneratorSyncPanel : Interactable
         playerFPSCharacterController = FindObjectOfType<PlayerFPSCharacterController>();
         playerUIHandler = FindObjectOfType<PlayerUIHandler>();
         playerInteractionHandler = FindObjectOfType<PlayerInteractionHandler>();
+        pauseMenu = FindObjectOfType<PauseMenu>();
 
         playerInput = playerFPSCharacterController.playerInput;
     }
@@ -33,7 +35,7 @@ public class GeneratorSyncPanel : Interactable
     // Update is called once per frame
     void Update()
     {
-        if (isGeneratorSyncUIActive && playerInput.UI.Pause.triggered)
+        if (!pauseMenu.isGamePaused && isGeneratorSyncUIActive && playerInput.UI.Pause.triggered)
         {
             ExitGeneratorSyncPanelUI();
         }
@@ -41,7 +43,7 @@ public class GeneratorSyncPanel : Interactable
 
     protected override void Interact()
     {
-        if (!isGeneratorSyncUIActive)
+        if (!pauseMenu.isGamePaused && !isGeneratorSyncUIActive)
         {
             // Set bool to true
             isGeneratorSyncUIActive = true;
@@ -69,7 +71,7 @@ public class GeneratorSyncPanel : Interactable
         }
     }
 
-    private void ExitGeneratorSyncPanelUI()
+    public void ExitGeneratorSyncPanelUI()
     {
             // Set bool to false
             isGeneratorSyncUIActive = false;

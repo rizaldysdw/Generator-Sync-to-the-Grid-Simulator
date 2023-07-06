@@ -22,6 +22,9 @@ public class GTGController : MonoBehaviour
     [Tooltip("Generator reactive power output in megavars (MVAR)")]
     public float reactivePowerOutput;
 
+    [Tooltip("Generator apparent power output in megavolt-amp (MVA)")]
+    public float apparentPowerOutput;
+
     [Tooltip("Whether the GTG is running or not")]
     public bool isRunning;
 
@@ -62,17 +65,17 @@ public class GTGController : MonoBehaviour
                 reactivePowerOutput = gridManager.reactivePowerDemand;
 
                 // Calculate the current based on power output, voltage, and power factor
-                float activePowerOutputMW = powerOutput; // Convert power output to megawatts
-                float reactivePowerOutputMVAR = reactivePowerOutput; // Convert reactive power to megavars
-                float apparentPowerOutputMVA = Mathf.Sqrt(Mathf.Pow(activePowerOutputMW, 2) + Mathf.Pow(reactivePowerOutputMVAR, 2));
-                float generatorPowerFactor = activePowerOutputMW / apparentPowerOutputMVA;
-                current = apparentPowerOutputMVA / (Mathf.Sqrt(3) * voltage);
+                // float activePowerOutputMW = powerOutput; // Convert power output to megawatts
+                // float reactivePowerOutputMVAR = reactivePowerOutput; // Convert reactive power to megavars
+                apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
+                float generatorPowerFactor = powerOutput / apparentPowerOutput;
+                current = apparentPowerOutput / (Mathf.Sqrt(3) * voltage);
 
-                Debug.Log("Generator Power Output: " + activePowerOutputMW + " MW");
-                Debug.Log("Generator Reactive Power: " + reactivePowerOutputMVAR + " MVAR");
-                Debug.Log("Generator Power Factor: " + generatorPowerFactor);
-                Debug.Log(voltage + " KV");
-                Debug.Log(current + " KA");
+                // Debug.Log("Generator Power Output: " + activePowerOutputMW + " MW");
+                // Debug.Log("Generator Reactive Power: " + reactivePowerOutputMVAR + " MVAR");
+                // Debug.Log("Generator Power Factor: " + generatorPowerFactor);
+                // Debug.Log(voltage + " KV");
+                // Debug.Log(current + " KA");
             }
         }
 

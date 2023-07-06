@@ -10,6 +10,8 @@ public class PlayerFPSCharacterController : MonoBehaviour
     public PlayerInput playerInput;
     private PlayerUIHandler playerUIHandler;
     private GTGController gtgController;
+    private GeneratorSyncPanel generatorSyncPanel;
+    private PauseMenu pauseMenu;
     private Animator playerAnimator;
     private Camera playerCamera;
 
@@ -47,6 +49,8 @@ public class PlayerFPSCharacterController : MonoBehaviour
         playerCamera = Camera.main;
         playerUIHandler = GetComponent<PlayerUIHandler>();
         gtgController = FindObjectOfType<GTGController>();
+        pauseMenu = FindObjectOfType<PauseMenu>();
+        generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
 
         // Handle "Movement" input
         playerInput.Gameplay.Move.started += OnMovementInput;
@@ -63,6 +67,9 @@ public class PlayerFPSCharacterController : MonoBehaviour
 
         // Handle "Statistics" input
         playerInput.Gameplay.Statistics.performed += OnStatisticsInput;
+
+        // Handle "Pause" input
+        // playerInput.Gameplay.Pause.performed += OnPauseInput;
 
         // Handle "Interact" input
         // playerInput.Gameplay.Interact.performed += OnInteractInput;
@@ -146,6 +153,21 @@ public class PlayerFPSCharacterController : MonoBehaviour
         // This method is used to call Interact input from this script
     }
 
+    void OnPauseInput(InputAction.CallbackContext context)
+    {
+        bool isPausePressed = context.ReadValueAsButton();
+
+        if (isPausePressed && !generatorSyncPanel.isGeneratorSyncUIActive)
+        {
+            pauseMenu.PauseGame();
+        }
+
+        if (isPausePressed && !generatorSyncPanel.isGeneratorSyncUIActive)
+        {
+            pauseMenu.ResumeButton();
+        }
+    }
+
     void AnimationHandler()
     {
         // Get parameter values from Animator
@@ -186,6 +208,11 @@ public class PlayerFPSCharacterController : MonoBehaviour
             playerCamera.transform.localRotation = Quaternion.Euler(rotationX, 0, 0);
             transform.rotation *= Quaternion.Euler(0, mouseX * lookSpeed, 0);
         }
+    }
+
+    public void ExitInteractionWithGeneratorSyncPanel()
+    {
+        generatorSyncPanel.ExitGeneratorSyncPanelUI();
     }
 
     public void LockCursor()
