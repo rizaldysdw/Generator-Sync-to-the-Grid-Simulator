@@ -11,32 +11,15 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public string sceneNameToLoad;
-
     void Awake()
     {
-        if (Instance != null)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else
         {
             Destroy(gameObject);
-            return;
         }
-
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-
-    public void PlayButton(string sceneNameToLoad)
-    {
-        LoadingData.sceneToLoad = sceneNameToLoad;
-        SceneManager.LoadScene("LoadingScreen");
-    }
-
-    public void ExitButton()
-    {
-        #if UNITY_EDITOR
-            EditorApplication.ExitPlaymode();
-        #else
-            Application.Quit();
-        #endif
     }
 }

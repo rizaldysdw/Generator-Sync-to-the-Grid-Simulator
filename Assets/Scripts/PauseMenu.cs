@@ -51,9 +51,9 @@ public class PauseMenu : MonoBehaviour
 
     public void ExitToMainMenuButton(string sceneNameToLoad)
     {
+        isGamePaused = false;
+        Time.timeScale = 1f;
         LoadingData.sceneToLoad = sceneNameToLoad;
         SceneManager.LoadScene("LoadingScreen");
-        Time.timeScale = 1f;
-        isGamePaused = false;
     }
 }

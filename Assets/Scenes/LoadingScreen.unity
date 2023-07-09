@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 748889068}
   - component: {fileID: 748889067}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: Loading Progress Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,7 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 798277028}
   - component: {fileID: 798277027}
-  - component: {fileID: 798277026}
+  - component: {fileID: 798277029}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -315,26 +315,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &798277026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 798277025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &798277027
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -365,6 +345,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &798277029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 798277025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_PointAction: {fileID: 1326354466595592027, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_MoveAction: {fileID: -4594853558279918380, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_SubmitAction: {fileID: -2614589626133283640, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_CancelAction: {fileID: -618269791356418618, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_LeftClickAction: {fileID: 1537368664241962708, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_MiddleClickAction: {fileID: 9095712970366699294, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_RightClickAction: {fileID: -1950098619585341802, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_ScrollWheelAction: {fileID: -6340636146567421605, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 3135855541437648165, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: -4215883928066787623, guid: 592af753328da504bb657eadf273dec3, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!1 &1001355243
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +775,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1528002515}
   - component: {fileID: 1528002514}
-  - component: {fileID: 1528002516}
   m_Layer: 0
   m_Name: Loading Manager
   m_TagString: Untagged
@@ -785,6 +794,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cde35905d9795ca41a96a6cfacd3ed47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  progressBar: {fileID: 748889067}
 --- !u!4 &1528002515
 Transform:
   m_ObjectHideFlags: 0
@@ -800,19 +810,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1528002516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1528002513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1389486a1c83aec40a697209d2fb6d96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  progressBar: {fileID: 748889067}
 --- !u!1 &1888920695
 GameObject:
   m_ObjectHideFlags: 0
