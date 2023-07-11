@@ -47,6 +47,9 @@ public class GTGController : MonoBehaviour
             frequency = 0f;
             voltage = 0f;
             current = 0f;
+            powerOutput = 0f;
+            reactivePowerOutput = 0f;
+            apparentPowerOutput = 0f;
         } else if (isRunning)
         {
             // Set the rotation speed to its maximum rotation speed
@@ -68,7 +71,7 @@ public class GTGController : MonoBehaviour
                 // float activePowerOutputMW = powerOutput; // Convert power output to megawatts
                 // float reactivePowerOutputMVAR = reactivePowerOutput; // Convert reactive power to megavars
                 apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
-                float generatorPowerFactor = powerOutput / apparentPowerOutput;
+                generatorPowerFactor = powerOutput / apparentPowerOutput;
                 current = apparentPowerOutput / (Mathf.Sqrt(3) * voltage);
 
                 // Debug.Log("Generator Power Output: " + activePowerOutputMW + " MW");

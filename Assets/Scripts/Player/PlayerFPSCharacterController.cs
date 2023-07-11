@@ -14,6 +14,7 @@ public class PlayerFPSCharacterController : MonoBehaviour
     private PauseMenu pauseMenu;
     private Animator playerAnimator;
     private Camera playerCamera;
+    public GameObject playerCrosshair;
 
     [Header("Movement Variables")]
     private Vector2 currentMovementInput;
@@ -73,6 +74,9 @@ public class PlayerFPSCharacterController : MonoBehaviour
 
         // Handle "Interact" input
         // playerInput.Gameplay.Interact.performed += OnInteractInput;
+
+        // Handle "Console" input
+        playerInput.Gameplay.Console.performed += OnConsoleInput;
 
         // Animator Controller optimization
         isWalkingHash = Animator.StringToHash("isWalking");
@@ -153,6 +157,11 @@ public class PlayerFPSCharacterController : MonoBehaviour
         // This method is used to call Interact input from this script
     }
 
+    void OnConsoleInput(InputAction.CallbackContext context)
+    {
+        playerUIHandler.ToggleConsoleCanvas();
+    }
+
     void OnPauseInput(InputAction.CallbackContext context)
     {
         bool isPausePressed = context.ReadValueAsButton();
@@ -219,12 +228,14 @@ public class PlayerFPSCharacterController : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        playerCrosshair.SetActive(true);
     }
 
     public void UnlockCursor()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        playerCrosshair.SetActive(false);
     }
 
     void OnEnable()

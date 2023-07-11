@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,20 +18,26 @@ public class PowerSettingSlider : MonoBehaviour
         gridManager = FindObjectOfType<GridManager>();
         generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
 
+        UpdateUIInteractivity();
+
         activePowerValueText.text = "0";
         reactivePowerValueText.text = "0";
+
+        activePowerSlider.onValueChanged.AddListener(OnActivePowerValueChanged);
+        reactivePowerSlider.onValueChanged.AddListener(OnReactivePowerValueChanged);
     }
 
-    void Update()
+    private void UpdateUIInteractivity()
     {
-        if (generatorSyncPanel.isSynchronized)
+        if (generatorSyncPanel != null && generatorSyncPanel.isSynchronized)
         {
-            activePowerSlider.onValueChanged.AddListener(OnActivePowerValueChanged);
-            reactivePowerSlider.onValueChanged.AddListener(OnReactivePowerValueChanged);
-        } else
+            activePowerSlider.interactable = true;
+            reactivePowerSlider.interactable = true;
+        }
+        else
         {
-            activePowerSlider.onValueChanged.RemoveListener(OnActivePowerValueChanged);
-            reactivePowerSlider.onValueChanged.RemoveListener(OnReactivePowerValueChanged); 
+            activePowerSlider.interactable = false;
+            reactivePowerSlider.interactable = false;
         }
     }
 
@@ -47,5 +51,13 @@ public class PowerSettingSlider : MonoBehaviour
     {
         reactivePowerValueText.text = value.ToString("0.00");
         gridManager.reactivePowerDemand = value;
+    }
+
+    private void Update()
+    {
+        if (generatorSyncPanel != null && generatorSyncPanel.isSynchronized)
+        {
+            UpdateUIInteractivity();
+        }
     }
 }
