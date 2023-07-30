@@ -4,32 +4,39 @@ using UnityEngine;
 
 public class GTGController : MonoBehaviour
 {
+    // Other Classes
     private GridManager gridManager;
     private GeneratorSyncPanel generatorSyncPanel;
 
+    // Gas Turbine Variables
     private float initialRotationSpeed = 3000f;
     public float governorControlSpeed; // in RPM (Rotations Per Minute)
     public float rotationSpeed; // in RPM
     public float rotationAngle; // in degree
     public float frequency; // in Hertz (Hz)
-    public float voltage; // in KV
-    public float current; // in KA
-    public float generatorPowerFactor;
-
-    [Tooltip("Generator power output in megawatts (MW)")]
-    public float powerOutput;
-
-    [Tooltip("Generator reactive power output in megavars (MVAR)")]
-    public float reactivePowerOutput;
-
-    [Tooltip("Generator apparent power output in megavolt-amp (MVA)")]
-    public float apparentPowerOutput;
-
     [Tooltip("Whether the GTG is running or not")]
     public bool isRunning;
 
-    private const float baseFrequency = 50f; // Base frequency in Hz
-    private const float baseVoltage = 19.04f; // Base frequency in Hz
+    // Generator Variables
+    public float voltage = 19.04f; // in KV
+    private float runningVoltage; // in KV
+    public float current; // in KA
+    public float generatorPowerFactor;
+    [Tooltip("Generator power output in megawatts (MW)")]
+    public float powerOutput;
+    [Tooltip("Generator reactive power output in megavars (MVAR)")]
+    public float reactivePowerOutput;
+    [Tooltip("Generator apparent power output in megavolt-amp (MVA)")]
+    public float apparentPowerOutput;
+
+    // Generator Excitation Variables
+    [Range(0, 405)]
+    public static bool isExcitationConnected;
+    public float excitationVoltage; // in V
+    private float excitationCurrent; // in A
+    private const float excitationReactance = 0.1085f; // in Ohms
+    private float initialExcitationVoltage = 100f;
+    public static float excitationVoltageControlValue;
 
     // Start is called before the first frame update
     void Start()
@@ -52,11 +59,11 @@ public class GTGController : MonoBehaviour
             apparentPowerOutput = 0f;
         } else if (isRunning)
         {
-            // Set the rotation speed to its maximum rotation speed
+            // Set the rotation speed based on governor control speed
             rotationSpeed = initialRotationSpeed + governorControlSpeed;
 
             // Set the voltage to its design capacity
-            voltage = baseVoltage;
+            runningVoltage = voltage;
 
             // Calculate the frequency based on the rotation speed
             frequency = rotationSpeed / 60f;
@@ -68,22 +75,11 @@ public class GTGController : MonoBehaviour
                 reactivePowerOutput = gridManager.reactivePowerDemand;
 
                 // Calculate the current based on power output, voltage, and power factor
-                // float activePowerOutputMW = powerOutput; // Convert power output to megawatts
-                // float reactivePowerOutputMVAR = reactivePowerOutput; // Convert reactive power to megavars
                 apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
                 generatorPowerFactor = powerOutput / apparentPowerOutput;
-                current = apparentPowerOutput / (Mathf.Sqrt(3) * voltage);
-
-                // Debug.Log("Generator Power Output: " + activePowerOutputMW + " MW");
-                // Debug.Log("Generator Reactive Power: " + reactivePowerOutputMVAR + " MVAR");
-                // Debug.Log("Generator Power Factor: " + generatorPowerFactor);
-                // Debug.Log(voltage + " KV");
-                // Debug.Log(current + " KA");
+                current = apparentPowerOutput / (Mathf.Sqrt(3) * runningVoltage);
             }
         }
-
-        // Debug.Log("Current rotation speed: " + rotationSpeed);
-        // Debug.Log("Current frequency is: " + frequency);
     }
 
     public void ToggleTurbineOperation()
@@ -99,5 +95,18 @@ public class GTGController : MonoBehaviour
     private void CalculateRotationAngle()
     {
         rotationAngle = rotationSpeed * 360f / 60f * Time.deltaTime;
+    }
+
+    private void CalculateExcitationCurrent()
+    {
+        excitationCurrent = excitationVoltage / excitationReactance;
+    }
+
+    private void CalculateReactivePowerOutput()
+    {
+        float sinTheta;
+        sinTheta = Mathf.Sqrt(1 - Mathf.Pow(generatorPowerFactor, 2f));
+
+        reactivePowerOutput = voltage * excitationVoltage * sinTheta;
     }
 }
