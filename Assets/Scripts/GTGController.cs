@@ -13,7 +13,7 @@ public class GTGController : MonoBehaviour
     public float governorControlSpeed; // in RPM (Rotations Per Minute)
     public float rotationSpeed; // in RPM
     public float rotationAngle; // in degree
-    public float frequency; // in Hertz (Hz)
+    public float frequency; // in Hertz (Hz
     [Tooltip("Whether the GTG is running or not")]
     public bool isRunning;
 
@@ -24,6 +24,7 @@ public class GTGController : MonoBehaviour
     public float generatorPowerFactor;
     [Tooltip("Generator power output in megawatts (MW)")]
     public float powerOutput;
+    private float previousPowerOutput;
     [Tooltip("Generator reactive power output in megavars (MVAR)")]
     public float reactivePowerOutput;
     [Tooltip("Generator apparent power output in megavolt-amp (MVA)")]
@@ -38,15 +39,73 @@ public class GTGController : MonoBehaviour
     private float initialExcitationVoltage = 100f;
     public static float excitationVoltageControlValue;
 
+    // Load Control Variables
+    private float targetRotationSpeed; // Target rotation speed for adjusting the RPM
+    private float rpmDropRate = 30f / 75f; // 30 RPM decrease for every 75 MW increase
+    private float rpmDrop;
+    [SerializeField] private float rpmChangeRate = 2.5f;
+
     // Start is called before the first frame update
     void Start()
     {
         gridManager = FindObjectOfType<GridManager>();
         generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
+
+        previousPowerOutput = powerOutput;
     }
 
     // Update is called once per frame
     void Update()
+    {
+        if (isRunning)
+        {
+            // Calculate the target rotation speed based on the load demand and RPM drop
+            targetRotationSpeed = initialRotationSpeed + governorControlSpeed - rpmDrop;
+
+            // Gradually update the rotation speed towards the target rotation speed
+            rotationSpeed = Mathf.Lerp(rotationSpeed, targetRotationSpeed, 0.1f);
+
+            frequency = rotationSpeed / 60f;
+            runningVoltage = voltage;
+
+            if (generatorSyncPanel.isSynchronized)
+            {
+                // Get values from GridManager script
+                powerOutput = gridManager.activePowerDemand;
+                reactivePowerOutput = gridManager.reactivePowerDemand;
+
+                apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
+                generatorPowerFactor = powerOutput / apparentPowerOutput;
+                current = apparentPowerOutput / (Mathf.Sqrt(3) * runningVoltage);
+
+                // Calculate the difference between the previous power output and the current power output
+                float powerOutputDifference = powerOutput - previousPowerOutput;
+
+                // Gradually adjust the RPM drop based on the power output difference
+                rpmDrop = powerOutputDifference * rpmDropRate;
+
+                // Adjust governorControlSpeed based on power output change direction
+                if (powerOutputDifference > 0)
+                {
+                    // Power output increased, decrease governorControlSpeed to decrease RPM
+                    governorControlSpeed -= rpmChangeRate;
+                }
+                else if (powerOutputDifference < 0)
+                {
+                    // Power output decreased, increase governorControlSpeed to increase RPM
+                    governorControlSpeed += rpmChangeRate;
+                }
+
+                // Store the current power output as the previous power output for the next frame
+                previousPowerOutput = powerOutput;
+
+                // Round the rotation speed to the nearest integer value
+                rotationSpeed = Mathf.RoundToInt(rotationSpeed);
+            }
+        }
+    }
+
+    private void SimpleCalculation()
     {
         if (!isRunning)
         {

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class GovernorControlButton : MonoBehaviour
 {
     private GTGController gtgController;
-    private Button button;
+    public Button increaseButton;
+    public Button decreaseButton;
 
     private float increaseValue = 0.25f;
     private float decreaseValue = 0.25f;
@@ -15,14 +16,13 @@ public class GovernorControlButton : MonoBehaviour
     void Start()
     {
         gtgController = FindObjectOfType<GTGController>();
-
-        button = GetComponent<Button>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        button.interactable = gtgController.isRunning;
+        increaseButton.interactable = gtgController.isRunning;
+        decreaseButton.interactable = gtgController.isRunning;
     }
 
     public void IncreaseGovernorControl()
@@ -32,7 +32,6 @@ public class GovernorControlButton : MonoBehaviour
             // Increase the governor control value by increaseValue
             gtgController.governorControlSpeed += increaseValue;
         }
-
     }
 
     public void DecreaseGovernorControl()
@@ -42,6 +41,5 @@ public class GovernorControlButton : MonoBehaviour
             // Decrease the governor control value by decreaseValue
             gtgController.governorControlSpeed -= decreaseValue;
         }
-
     }
 }
