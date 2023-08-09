@@ -26,6 +26,6 @@ public class TurbineControlPanel : Interactable
 
     protected override void Interact()
     {
-        gtgController.isRunning = !gtgController.isRunning;
+        gtgController.ToggleTurbineOperation();
     }
 }

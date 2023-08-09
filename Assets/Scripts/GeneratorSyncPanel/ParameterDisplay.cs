@@ -20,8 +20,8 @@ public class ParameterDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        plantFrequencyText.text = gtgController.frequency + " Hz";
-        plantVoltageText.text = gtgController.voltage + " KV";
-        plantCurrentText.text = gtgController.current + " KA";
+        plantFrequencyText.text = gtgController.frequency.ToString("F2") + " Hz";
+        plantVoltageText.text = gtgController.voltage.ToString("F2") + " KV";
+        plantCurrentText.text = gtgController.current.ToString("F2") + " KA";
     }
 }

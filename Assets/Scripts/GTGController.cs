@@ -9,15 +9,17 @@ public class GTGController : MonoBehaviour
     private GeneratorSyncPanel generatorSyncPanel;
 
     // Gas Turbine Variables
-    private float initialRotationSpeed = 3000f;
+    private float initialRotationSpeed;
     public float governorControlSpeed; // in RPM (Rotations Per Minute)
     public float rotationSpeed; // in RPM
     public float rotationAngle; // in degree
-    public float frequency; // in Hertz (Hz
+    public float frequency; // in Hertz
     [Tooltip("Whether the GTG is running or not")]
     public bool isRunning;
+    private bool isProtectionActive;
 
     // Generator Variables
+    [Range(0, 19.04f)]
     public float voltage = 19.04f; // in KV
     private float runningVoltage; // in KV
     public float current; // in KA
@@ -41,9 +43,15 @@ public class GTGController : MonoBehaviour
 
     // Load Control Variables
     private float targetRotationSpeed; // Target rotation speed for adjusting the RPM
-    private float rpmDropRate = 30f / 75f; // 30 RPM decrease for every 75 MW increase
+    private float rpmChangeRate = 30f / 75f; // 30 RPM decrease for every 75 MW increase
     private float rpmDrop;
-    [SerializeField] private float rpmChangeRate = 2.5f;
+
+    // Frequency Protection
+    private float lowFrequencyThreshold = 47f; // Hz
+    private float lowFrequencyAlarmThreshold = 47.5f; // Hz
+    private float highFrequencyThreshold = 52f; // Hz
+    private float highFrequencyAlarmThreshold = 51.5f; // Hz
+    public bool isGeneratorTripped = false;
 
     // Start is called before the first frame update
     void Start()
@@ -52,56 +60,40 @@ public class GTGController : MonoBehaviour
         generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
 
         previousPowerOutput = powerOutput;
+        rpmDrop = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        frequency = rotationSpeed / 60f;
+
         if (isRunning)
         {
             // Calculate the target rotation speed based on the load demand and RPM drop
-            targetRotationSpeed = initialRotationSpeed + governorControlSpeed - rpmDrop;
+            targetRotationSpeed = initialRotationSpeed + rpmDrop + governorControlSpeed;
 
             // Gradually update the rotation speed towards the target rotation speed
             rotationSpeed = Mathf.Lerp(rotationSpeed, targetRotationSpeed, 0.1f);
 
-            frequency = rotationSpeed / 60f;
             runningVoltage = voltage;
+
+            if (rotationSpeed >= 2900f)
+            {
+                isProtectionActive = true;
+            }
 
             if (generatorSyncPanel.isSynchronized)
             {
-                // Get values from GridManager script
-                powerOutput = gridManager.activePowerDemand;
-                reactivePowerOutput = gridManager.reactivePowerDemand;
-
-                apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
-                generatorPowerFactor = powerOutput / apparentPowerOutput;
-                current = apparentPowerOutput / (Mathf.Sqrt(3) * runningVoltage);
-
-                // Calculate the difference between the previous power output and the current power output
-                float powerOutputDifference = powerOutput - previousPowerOutput;
-
-                // Gradually adjust the RPM drop based on the power output difference
-                rpmDrop = powerOutputDifference * rpmDropRate;
-
-                // Adjust governorControlSpeed based on power output change direction
-                if (powerOutputDifference > 0)
-                {
-                    // Power output increased, decrease governorControlSpeed to decrease RPM
-                    governorControlSpeed -= rpmChangeRate;
-                }
-                else if (powerOutputDifference < 0)
-                {
-                    // Power output decreased, increase governorControlSpeed to increase RPM
-                    governorControlSpeed += rpmChangeRate;
-                }
-
-                // Store the current power output as the previous power output for the next frame
-                previousPowerOutput = powerOutput;
-
-                // Round the rotation speed to the nearest integer value
-                rotationSpeed = Mathf.RoundToInt(rotationSpeed);
+                CalculateGeneratorOperation();
             }
+            else if (!generatorSyncPanel.isSynchronized)
+            {
+                ResetGeneratorVariables(0f, 0f, 0f);
+            }
+
+            TurbineSpeedProtection();
+            FrequencyProtection();
         }
     }
 
@@ -119,7 +111,7 @@ public class GTGController : MonoBehaviour
         } else if (isRunning)
         {
             // Set the rotation speed based on governor control speed
-            rotationSpeed = initialRotationSpeed + governorControlSpeed;
+            rotationSpeed = initialRotationSpeed + rpmDrop + governorControlSpeed;
 
             // Set the voltage to its design capacity
             runningVoltage = voltage;
@@ -140,6 +132,125 @@ public class GTGController : MonoBehaviour
             }
         }
     }
+    private void CalculateGeneratorOperation()
+    {
+        // Get values from GridManager script
+        powerOutput = gridManager.activePowerDemand;
+        reactivePowerOutput = gridManager.reactivePowerDemand;
+
+        apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
+        generatorPowerFactor = powerOutput / apparentPowerOutput;
+        current = apparentPowerOutput / (Mathf.Sqrt(3) * runningVoltage);
+
+        // Calculate the difference between the previous power output and the current power output
+        float powerOutputDifference = powerOutput - previousPowerOutput;
+
+        // Gradually adjust the RPM drop based on the power output difference
+        // rpmDrop = powerOutputDifference * rpmDropRate;
+
+        // Adjust governorControlSpeed based on power output change direction
+        if (powerOutputDifference > 0)
+        {
+            // Power output increased, decrease governorControlSpeed to decrease RPM
+            rpmDrop -= rpmChangeRate * powerOutputDifference;
+        }
+        else if (powerOutputDifference < 0)
+        {
+            // Power output decreased, increase governorControlSpeed to increase RPM
+            rpmDrop += rpmChangeRate * Mathf.Abs(powerOutputDifference);
+        }
+
+        // Store the current power output as the previous power output for the next frame
+        previousPowerOutput = powerOutput;
+    }
+
+    private void TurbineSpeedProtection()
+    {
+        if (isRunning && isProtectionActive && rotationSpeed >= 3300f)
+        {
+            TripGasTurbine();
+            Debug.Log("GT is tripped by Overspeed Protection");
+        }
+    }
+
+    private void FrequencyProtection()
+    {
+        float currentFrequency = frequency;
+
+        // Check for low frequency conditions
+        if (currentFrequency <= lowFrequencyThreshold && isRunning && isProtectionActive)
+        {
+            // Trip the gas turbine if frequency is too low
+            StartCoroutine(CountdownTripGasTurbine(0.1f));
+            Debug.Log("GT Tripped!");
+        } else if (currentFrequency <= lowFrequencyAlarmThreshold && isProtectionActive)
+        {
+            // Low frequency alarm
+            Debug.Log("Alarm: Low Frequency");
+
+            // Trip Generator after 20 seconds
+            StartCoroutine(CountdownTripGenerator(20f));
+        }
+        else
+        {
+            // Reset trip flags
+            isGeneratorTripped = false;
+            ResetGeneratorVariables(19.04f, current, frequency);
+        }
+
+        // Check for high frequency conditions
+        if (currentFrequency >= highFrequencyThreshold && isProtectionActive)
+        {
+            // Generator is offline due to high frequency
+            if (!isGeneratorTripped)
+            {
+                StartCoroutine(CountdownTripGenerator(0.1f));
+                Debug.Log("Generator Tripped");
+            }
+        } else if (currentFrequency >= highFrequencyAlarmThreshold && isProtectionActive)
+        {
+            Debug.Log("Alarm: High Frequency");
+        } else
+        {
+            // Reset trip flag
+            isGeneratorTripped = false;
+            ResetGeneratorVariables(19.04f, current, frequency);
+        }
+    }
+
+    private IEnumerator CountdownTripGasTurbine(float delay)
+    {
+        // Wait for the specified delay before tripping the gas turbine
+        yield return new WaitForSeconds(delay);
+
+        // Trip the gas turbine
+        TripGasTurbine();
+    }
+
+    private IEnumerator CountdownTripGenerator(float delay)
+    {
+        // Wait for the specified delay before tripping the gas turbine
+        yield return new WaitForSeconds(delay);
+
+        TripGenerator();
+    }
+
+    private void TripGasTurbine()
+    {
+        isRunning = false;
+        isProtectionActive = false;
+
+        rotationSpeed = 0f;
+        governorControlSpeed = 0f;
+    }
+
+    private void TripGenerator()
+    {
+        isGeneratorTripped = true;
+
+        ResetGeneratorVariables(0f, 0f, 0f);
+        Debug.Log("Generator Tripped!");
+    }
 
     public void ToggleTurbineOperation()
     {
@@ -147,8 +258,38 @@ public class GTGController : MonoBehaviour
 
         if (isRunning)
         {
-            rotationSpeed = 3000f;
+            ResetTurbineVariables(3000f);
+            isProtectionActive = false;
+        } else
+        {
+            isProtectionActive = false;
+            ResetTurbineVariables(0f);
         }
+    }
+
+    private void ResetTurbineVariables(float RPM)
+    {
+        isProtectionActive = false;
+
+        initialRotationSpeed = RPM;
+        governorControlSpeed = 0f;
+        rotationSpeed = initialRotationSpeed + governorControlSpeed;
+    }
+
+    private void ResetGeneratorVariables(float targetVoltage, float targetCurrent, float targetFrequency)
+    {
+        if (!isGeneratorTripped)
+        {
+            voltage = targetVoltage;
+        }
+        else
+        {
+            generatorSyncPanel.isSynchronized = false;
+            voltage = targetVoltage;
+            current = targetCurrent;
+            frequency = targetFrequency;
+        }
+            
     }
 
     private void CalculateRotationAngle()

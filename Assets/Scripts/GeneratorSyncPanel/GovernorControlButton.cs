@@ -9,8 +9,8 @@ public class GovernorControlButton : MonoBehaviour
     public Button increaseButton;
     public Button decreaseButton;
 
-    private float increaseValue = 0.25f;
-    private float decreaseValue = 0.25f;
+    private float increaseValue = 1f;
+    private float decreaseValue = 1f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,8 +21,13 @@ public class GovernorControlButton : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        increaseButton.interactable = gtgController.isRunning;
-        decreaseButton.interactable = gtgController.isRunning;
+        UpdateButtonInteractableState();   
+    }
+
+    private void UpdateButtonInteractableState()
+    {
+        increaseButton.interactable = !gtgController.isGeneratorTripped;
+        decreaseButton.interactable = !gtgController.isGeneratorTripped;
     }
 
     public void IncreaseGovernorControl()

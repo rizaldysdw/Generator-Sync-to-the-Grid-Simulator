@@ -6,9 +6,13 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public bool isGamePaused;
+    private bool isOnSettingsPage;
+
     private string sceneNameToLoad;
 
     public GameObject pauseMenu;
+    public GameObject settingsPage;
+
     private PlayerFPSCharacterController playerController;
 
     void Start()
@@ -24,6 +28,11 @@ public class PauseMenu : MonoBehaviour
         } else if (isGamePaused && playerController.playerInput.Gameplay.Pause.triggered)
         {
             ResumeButton();
+        }
+
+        if (isOnSettingsPage && playerController.playerInput.Gameplay.Pause.triggered)
+        {
+            ExitSettingsPage();
         }
     }
 
@@ -55,5 +64,21 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1f;
         LoadingData.sceneToLoad = sceneNameToLoad;
         SceneManager.LoadScene("LoadingScreen");
+    }
+
+    public void EnterSettingsPage()
+    {
+        pauseMenu.SetActive(false);
+        settingsPage.SetActive(true);
+
+        isOnSettingsPage = true;
+    }
+
+    public void ExitSettingsPage()
+    {
+        pauseMenu.SetActive(true);
+        settingsPage.SetActive(false);
+
+        isOnSettingsPage = false;
     }
 }
