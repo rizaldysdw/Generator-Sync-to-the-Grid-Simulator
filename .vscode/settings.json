@@ -51,5 +51,6 @@
         "ProjectSettings/": true,
         "temp/": true,
         "Temp/": true
-    }
+    },
+    "dotnet.defaultSolution": "Generator Sync to the Grid Simulator.sln"
 }
