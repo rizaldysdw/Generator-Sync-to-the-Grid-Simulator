@@ -9,7 +9,7 @@ public class GTGController : MonoBehaviour
     private GeneratorSyncPanel generatorSyncPanel;
 
     // Gas Turbine Variables
-    private float initialRotationSpeed;
+    private float initialRotationSpeed = 3000f;
     public float governorControlSpeed; // in RPM (Rotations Per Minute)
     public float rotationSpeed; // in RPM
     public float rotationAngle; // in degree
@@ -50,7 +50,7 @@ public class GTGController : MonoBehaviour
     private float lowFrequencyAlarmThreshold = 47.5f; // Hz
     private float highFrequencyThreshold = 52f; // Hz
     private float highFrequencyAlarmThreshold = 51.5f; // Hz
-    public bool isGeneratorTripped = false;
+    public bool isGeneratorTripped;
 
     // Start is called before the first frame update
     void Start()
@@ -65,8 +65,6 @@ public class GTGController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        frequency = rotationSpeed / 60f;
-
         if (isRunning)
         {
             // Calculate the target rotation speed based on the load demand and RPM drop
@@ -75,12 +73,11 @@ public class GTGController : MonoBehaviour
             // Gradually update the rotation speed towards the target rotation speed
             rotationSpeed = Mathf.Lerp(rotationSpeed, targetRotationSpeed, 0.1f);
 
-            runningVoltage = voltage;
+            // Calculate frequency
+            frequency = rotationSpeed / 60f;
 
-            if (rotationSpeed >= 2900f)
-            {
-                isProtectionActive = true;
-            }
+            // Set running voltage
+            voltage = 19.04f;
 
             if (generatorSyncPanel.isSynchronized)
             {
@@ -92,8 +89,22 @@ public class GTGController : MonoBehaviour
                 ResetGeneratorVariables(0f, 0f, 0f);
             }
 
+            if (rotationSpeed >= 2900f)
+            {
+                isProtectionActive = true;
+            }
+
             TurbineSpeedProtection();
             FrequencyProtection();
+        }
+        else
+        {
+            generatorSyncPanel.isSynchronized = false;
+            frequency = 0f;
+            voltage = 0f;
+            powerOutput = 0f;
+            reactivePowerOutput = 0f;
+            current = 0f;
         }
     }
 
@@ -141,7 +152,7 @@ public class GTGController : MonoBehaviour
 
         apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
         generatorPowerFactor = powerOutput / apparentPowerOutput;
-        current = apparentPowerOutput / (Mathf.Sqrt(3) * runningVoltage);
+        current = apparentPowerOutput / (Mathf.Sqrt(3) * voltage);
 
         // Calculate the difference between the previous power output and the current power output
         float powerOutputDifference = powerOutput - previousPowerOutput;
@@ -283,13 +294,13 @@ public class GTGController : MonoBehaviour
 
         if (isRunning)
         {
-            ResetTurbineVariables(3000f);
+            initialRotationSpeed = 3000f;
             isProtectionActive = false;
         }
         else
         {
             isProtectionActive = false;
-            ResetTurbineVariables(0f);
+            initialRotationSpeed = 0;
         }
     }
 
@@ -315,6 +326,11 @@ public class GTGController : MonoBehaviour
             current = targetCurrent;
             frequency = targetFrequency;
         }
+    }
+
+    public void GeneratorTripState()
+    {
+        isGeneratorTripped = !isGeneratorTripped;
     }
 
     private void CalculateRotationAngle()

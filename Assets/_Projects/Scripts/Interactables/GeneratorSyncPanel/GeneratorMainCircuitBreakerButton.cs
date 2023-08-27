@@ -9,6 +9,7 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
 
     public Transform needle; // Reference to the synchroscope needle GameObject
     public Button closeButton; // Reference to the "Close" button
+    public Button openButton; // Reference to the "Open" button
 
     private float needleRotation;
     private bool isNeedleInRange;
@@ -16,6 +17,8 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
     private void Start()
     {
         closeButton.onClick.AddListener(OnCloseButtonClick);
+        openButton.onClick.AddListener(OnOpenButtonClick);
+
         gtgController = FindObjectOfType<GTGController>();
         gridManager = FindObjectOfType<GridManager>();
         generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
@@ -34,7 +37,17 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
         }
         else
         {
-            Debug.Log("Synchronization failed: Needle is not in the safe range.");
+            gtgController.isRunning = false;
+            Debug.Log("Synchronization failed: Needle is not in the safe range. GTG Tripped!");
         }
-    } 
+    }
+
+    private void OnOpenButtonClick()
+    {
+        if (gtgController.powerOutput <= 0f && gtgController.reactivePowerOutput <= 0f && gtgController.frequency <= gridManager.frequency)
+        {
+            generatorSyncPanel.isSynchronized = false;
+            Debug.Log("Generator disconnected from the grid!");
+        }
+    }
 }
