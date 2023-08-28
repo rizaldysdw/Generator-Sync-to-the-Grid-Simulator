@@ -44,7 +44,9 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
 
     private void OnOpenButtonClick()
     {
-        if (gtgController.powerOutput <= 0f && gtgController.reactivePowerOutput <= 0f && gtgController.frequency <= gridManager.frequency)
+        if (gtgController.powerOutput <= 0f &&
+        gtgController.reactivePowerOutput <= 0f &&
+        gtgController.frequency <= gridManager.frequency)
         {
             generatorSyncPanel.isSynchronized = false;
             Debug.Log("Generator disconnected from the grid!");

@@ -26,8 +26,8 @@ public class GovernorControlButton : MonoBehaviour
 
     private void UpdateButtonInteractableState()
     {
-        increaseButton.interactable = !gtgController.isGeneratorTripped;
-        decreaseButton.interactable = !gtgController.isGeneratorTripped;
+        increaseButton.interactable = gtgController.isRunning;
+        decreaseButton.interactable = gtgController.isRunning;
     }
 
     public void IncreaseGovernorControl()

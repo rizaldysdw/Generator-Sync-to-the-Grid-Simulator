@@ -38,7 +38,7 @@ public class GeneratorOperationButton : MonoBehaviour
             // Generator is tripped
             // Start Generator
             gtgController.isRunning = true;
-            Debug.Log("GeneratorOperationButton script has changed isRunning to false!");
+            Debug.Log("GeneratorOperationButton script has changed isRunning to true!");
         } else
         {
             Debug.Log("GTG is already running!");
