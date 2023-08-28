@@ -39,6 +39,9 @@ public class SynchroscopeController : MonoBehaviour
 =======
         // Synchroscope behavior when Generator is tripped
         if (!gtgController.isGeneratorTripped)
+<<<<<<< HEAD
+>>>>>>> parent of dc44b79 (Final Version Thesis)
+=======
 >>>>>>> parent of dc44b79 (Final Version Thesis)
         {
             // Compare the generator frequency with the grid frequency

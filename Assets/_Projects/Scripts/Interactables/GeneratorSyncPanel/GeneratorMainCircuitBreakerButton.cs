@@ -13,8 +13,11 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
     {
         closeButton.onClick.AddListener(OnCloseButtonClick);
 <<<<<<< HEAD
+<<<<<<< HEAD
         openButton.onClick.AddListener(OnOpenButtonClick);
 =======
+=======
+>>>>>>> parent of dc44b79 (Final Version Thesis)
         gtgController = FindObjectOfType<GTGController>();
         gridManager = FindObjectOfType<GridManager>();
         generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
@@ -35,6 +38,7 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
         else
         {
 <<<<<<< HEAD
+<<<<<<< HEAD
             GasTurbineController.isGasTurbineRunning = false;
             Debug.Log("Synchronization failed: Needle is not in the safe range. Gas Turbine Tripped!");
         }
@@ -50,6 +54,11 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
             Debug.Log("Generator disconnected from the grid!");
         }
     }
+=======
+            Debug.Log("Synchronization failed: Needle is not in the safe range.");
+        }
+    } 
+>>>>>>> parent of dc44b79 (Final Version Thesis)
 =======
             Debug.Log("Synchronization failed: Needle is not in the safe range.");
         }

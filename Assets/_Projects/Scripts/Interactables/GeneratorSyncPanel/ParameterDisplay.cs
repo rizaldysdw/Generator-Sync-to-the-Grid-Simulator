@@ -20,6 +20,7 @@ public class ParameterDisplay : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
 <<<<<<< HEAD:Assets/_Projects/Scripts/Interactables/GeneratorSyncPanel/GeneratorSyncPanelUI.cs
         UpdateGeneratorSyncPanelUI();   
     }
@@ -38,5 +39,10 @@ public class ParameterDisplay : MonoBehaviour
         plantVoltageText.text = gtgController.voltage.ToString("F2") + " KV";
         plantCurrentText.text = gtgController.current.ToString("F2") + " KA";
 >>>>>>> parent of dc44b79 (Final Version Thesis):Assets/_Projects/Scripts/Interactables/GeneratorSyncPanel/ParameterDisplay.cs
+=======
+        plantFrequencyText.text = gtgController.frequency.ToString("F2") + " Hz";
+        plantVoltageText.text = gtgController.voltage.ToString("F2") + " KV";
+        plantCurrentText.text = gtgController.current.ToString("F2") + " KA";
+>>>>>>> parent of dc44b79 (Final Version Thesis)
     }
 }

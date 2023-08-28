@@ -109,4 +109,15 @@ public class GeneratorSyncPanel : Interactable
         plantVoltageText.text = generatorVoltage.ToString("F2") + " KV";
         plantCurrentText.text = generatorCurrent.ToString("F2") + " KA";
     }
+
+    private void UpdateGeneratorSyncPanelUI()
+    {
+        float generatorFrequency = gtgController.frequency;
+        float generatorVoltage = gtgController.voltage;
+        float generatorCurrent = gtgController.current;
+
+        plantFrequencyText.text =  generatorFrequency.ToString("F2") + " Hz";
+        plantVoltageText.text = generatorVoltage.ToString("F2") + " KV";
+        plantCurrentText.text = generatorCurrent.ToString("F2") + " KA";
+    }
 }
