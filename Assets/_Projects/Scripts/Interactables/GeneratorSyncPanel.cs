@@ -12,10 +12,16 @@ public class GeneratorSyncPanel : Interactable
     private PlayerUIHandler playerUIHandler;
     private PauseMenu pauseMenu;
 
+    [Header("References from Generator and Grid Scripts")]
+    private GTGController gtgController;
+
     [Header("References for Generator Sync Panel")]
     [SerializeField] private GameObject generatorSyncUI;
     public bool isGeneratorSyncUIActive;
     public bool isSynchronized;
+    public Text plantFrequencyText;
+    public Text plantVoltageText;
+    public Text plantCurrentText;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +30,7 @@ public class GeneratorSyncPanel : Interactable
         playerUIHandler = FindObjectOfType<PlayerUIHandler>();
         playerInteractionHandler = FindObjectOfType<PlayerInteractionHandler>();
         pauseMenu = FindObjectOfType<PauseMenu>();
+        gtgController = FindObjectOfType<GTGController>();
 
         playerInput = playerFPSCharacterController.playerInput;
     }
@@ -35,6 +42,8 @@ public class GeneratorSyncPanel : Interactable
         {
             ExitGeneratorSyncPanelUI();
         }
+
+        UpdateGeneratorSyncPanelUI();
     }
 
     protected override void Interact()
@@ -88,5 +97,16 @@ public class GeneratorSyncPanel : Interactable
     public void ToggleGeneratorCircuitBreaker()
     {
         GeneratorController.isGeneratorSynchronized = !GeneratorController.isGeneratorSynchronized;
+    }
+
+    private void UpdateGeneratorSyncPanelUI()
+    {
+        float generatorFrequency = gtgController.frequency;
+        float generatorVoltage = gtgController.voltage;
+        float generatorCurrent = gtgController.current;
+
+        plantFrequencyText.text =  generatorFrequency.ToString("F2") + " Hz";
+        plantVoltageText.text = generatorVoltage.ToString("F2") + " KV";
+        plantCurrentText.text = generatorCurrent.ToString("F2") + " KA";
     }
 }

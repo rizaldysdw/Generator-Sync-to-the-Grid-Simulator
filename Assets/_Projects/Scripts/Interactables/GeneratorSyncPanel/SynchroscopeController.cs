@@ -4,11 +4,27 @@ using UnityEngine;
 
 public class SynchroscopeController : MonoBehaviour
 {
+<<<<<<< HEAD
     // Reference to the synchroscope needle GameObject
     [SerializeField] private Transform needle; 
     
     // Speed at which the needle rotates
     private float rotationSpeed = 100f; 
+=======
+    public Transform needle; // Reference to the synchroscope needle GameObject
+    private GTGController gtgController; // Reference to the GTGController script
+    private GridManager gridManager; // Reference to the GridManager script
+    private GeneratorSyncPanel generatorSyncPanel; // Reference to the GeneratorSyncPanel script
+    
+    private float rotationSpeed = 100f; // Speed at which the needle rotates
+
+    void Start()
+    {
+        gtgController = FindObjectOfType<GTGController>();
+        gridManager = FindObjectOfType<GridManager>();
+        generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
+    }
+>>>>>>> parent of dc44b79 (Final Version Thesis)
 
     void Update()
     {
@@ -17,8 +33,13 @@ public class SynchroscopeController : MonoBehaviour
 
     private void UpdateNeedleRotation()
     {
+<<<<<<< HEAD
         // Synchroscope behavior when Generator is not synchronized
         if (GasTurbineController.isGasTurbineRunning)
+=======
+        // Synchroscope behavior when Generator is tripped
+        if (!gtgController.isGeneratorTripped)
+>>>>>>> parent of dc44b79 (Final Version Thesis)
         {
             // Compare the generator frequency with the grid frequency
             if (!GeneratorController.isGeneratorSynchronized && GeneratorController.frequency > GridManager.frequency)
@@ -56,29 +77,10 @@ public class SynchroscopeController : MonoBehaviour
                     needle.rotation = Quaternion.Euler(0f, 0f, targetRotation);
                 }
             }
-        }
-        else
+        } else
         {
-            // Stop needle rotation due to GTG is tripped
-            // Rotate the synchroscope needle towards the initial position (0 rotation)
-            float currentRotation = needle.eulerAngles.z;
-            float targetRotation = 0f;
-
-            // Calculate the rotation direction
-            float rotationDirection = (targetRotation > currentRotation) ? 1f : -1f;
-
-            // Calculate the rotation amount based on the remaining rotation distance
-            float rotationAmount = Mathf.Abs(targetRotation - currentRotation);
-
-            // Rotate the synchroscope needle
-            needle.Rotate(0f, 0f, rotationSpeed * rotationDirection * Time.deltaTime);
-
-            // Check if the remaining rotation amount is smaller than the rotation speed
-            if (rotationAmount <= rotationSpeed * Time.deltaTime)
-            {
-                // Set the rotation directly to the target rotation
-                needle.rotation = Quaternion.Euler(0f, 0f, targetRotation);
-            }
+            // Stop needle rotation due to Generator is tripped
+            needle.Rotate(0f, 0f, 0f);
         }
     }
 }
