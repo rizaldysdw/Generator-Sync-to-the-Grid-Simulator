@@ -17,21 +17,21 @@ public class GridManager : MonoBehaviour
 
     [Space(5f)]
     [Tooltip("Frequency of the grid in hertz (Hz)")]
-    public static float frequency = 50f;
+    public float frequency = 50f;
     private float frequencyControl = 0.1f;
     
 
 
-    public static float voltage = 19.04f; // in KV
+    public float voltage = 19.04f; // in KV
     
     [Range(0, 300)]
     [Tooltip("Active power demand in megawatts (MW)")] 
-    public static float realPowerDemand;
-    private float realPowerDemandControl = 1f;
+    public float activePowerDemand;
+    private float activePowerDemandControl = 1f;
     
 
     [Tooltip("Reactive power demand in megavars (MVAR)")]
-    public static float reactivePowerDemand;
+    public float reactivePowerDemand;
     private float reactivePowerDemandControl = 1f;
     
 
@@ -54,7 +54,7 @@ public class GridManager : MonoBehaviour
     {
         if (gtgController.isRunning && generatorSyncPanel.isSynchronized)
         {
-            realPowerDemand += realPowerDemandControl;
+            activePowerDemand += activePowerDemandControl;
         }
     }
 
@@ -62,7 +62,7 @@ public class GridManager : MonoBehaviour
     {
         if (gtgController.isRunning && generatorSyncPanel.isSynchronized)
         {
-            realPowerDemand -= realPowerDemandControl;
+            activePowerDemand -= activePowerDemandControl;
         }
     }
 
@@ -94,7 +94,7 @@ public class GridManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        activePowerValueText.text = realPowerDemand.ToString("0.00") + " MW";
+        activePowerValueText.text = activePowerDemand.ToString("0.00") + " MW";
         reactivePowerValueText.text = reactivePowerDemand.ToString("0.00") + " MVAR";
         frequencyValueText.text = frequency.ToString("0.00") + " Hz";
     }

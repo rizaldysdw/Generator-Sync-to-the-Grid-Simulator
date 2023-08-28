@@ -27,11 +27,12 @@ public class ParameterDisplay : MonoBehaviour
 
     void UpdateGeneratorSyncPanelUI()
     {
-        plantFrequencyText.text = GeneratorController.frequency.ToString("F2") + " Hz";
-        plantVoltageText.text = GeneratorController.voltage.ToString("F2") + " KV";
-        plantCurrentText.text = GeneratorController.current.ToString("F2") + " KA";
-        plantActivePowerText.text = GeneratorController.realPowerOutput.ToString("F2") + " MW";
+        plantFrequencyText.text = gtgController.frequency.ToString("F2") + " Hz";
+        plantVoltageText.text = gtgController.voltage.ToString("F2") + " KV";
+        plantCurrentText.text = gtgController.current.ToString("F2") + " KA";
+        plantActivePowerText.text = gtgController.powerOutput.ToString("F2") + " MW";
 
+<<<<<<< HEAD:Assets/_Projects/Scripts/Interactables/GeneratorSyncPanel/ParameterDisplay.cs
         gridFrequencyText.text = GridManager.frequency.ToString("F2") + " Hz";
         gridVoltageText.text = GridManager.voltage.ToString("F2") + " KV";
 =======
@@ -44,5 +45,9 @@ public class ParameterDisplay : MonoBehaviour
         plantVoltageText.text = gtgController.voltage.ToString("F2") + " KV";
         plantCurrentText.text = gtgController.current.ToString("F2") + " KA";
 >>>>>>> parent of dc44b79 (Final Version Thesis)
+=======
+        gridFrequencyText.text = gridManager.frequency.ToString("F2") + " Hz";
+        gridVoltageText.text = gridManager.voltage.ToString("F2") + " KV";
+>>>>>>> parent of 24f18bc (Revert to Previous Version):Assets/_Projects/Scripts/Interactables/GeneratorSyncPanel/GeneratorSyncPanelUI.cs
     }
 }

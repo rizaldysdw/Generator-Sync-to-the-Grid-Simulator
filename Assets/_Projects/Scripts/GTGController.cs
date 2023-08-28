@@ -123,8 +123,8 @@ public class GTGController : MonoBehaviour
             if (generatorSyncPanel.isSynchronized)
             {
                 // Get power demand from GridManager
-                powerOutput = GridManager.realPowerDemand;
-                reactivePowerOutput = GridManager.reactivePowerDemand;
+                powerOutput = gridManager.activePowerDemand;
+                reactivePowerOutput = gridManager.reactivePowerDemand;
 
                 // Calculate the current based on power output, voltage, and power factor
                 apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
@@ -136,8 +136,8 @@ public class GTGController : MonoBehaviour
     private void CalculateGeneratorOperation()
     {
         // Get values from GridManager script
-        powerOutput = GridManager.realPowerDemand;
-        reactivePowerOutput = GridManager.reactivePowerDemand;
+        powerOutput = gridManager.activePowerDemand;
+        reactivePowerOutput = gridManager.reactivePowerDemand;
 
         apparentPowerOutput = Mathf.Sqrt(Mathf.Pow(powerOutput, 2) + Mathf.Pow(reactivePowerOutput, 2));
         generatorPowerFactor = powerOutput / apparentPowerOutput;
