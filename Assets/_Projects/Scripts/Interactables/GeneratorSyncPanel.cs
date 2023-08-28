@@ -87,6 +87,6 @@ public class GeneratorSyncPanel : Interactable
 
     public void ToggleGeneratorCircuitBreaker()
     {
-        isSynchronized = !isSynchronized;
+        GeneratorController.isGeneratorSynchronized = !GeneratorController.isGeneratorSynchronized;
     }
 }

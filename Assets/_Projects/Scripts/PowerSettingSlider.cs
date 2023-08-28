@@ -3,9 +3,6 @@ using UnityEngine.UI;
 
 public class PowerSettingSlider : MonoBehaviour
 {
-    private GridManager gridManager;
-    private GeneratorSyncPanel generatorSyncPanel;
-
     public Slider activePowerSlider;
     public Slider reactivePowerSlider;
 
@@ -15,9 +12,6 @@ public class PowerSettingSlider : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gridManager = FindObjectOfType<GridManager>();
-        generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
-
         UpdateUIInteractivity();
 
         activePowerValueText.text = "0";
@@ -27,9 +21,14 @@ public class PowerSettingSlider : MonoBehaviour
         reactivePowerSlider.onValueChanged.AddListener(OnReactivePowerValueChanged);
     }
 
+    void Update()
+    {
+        UpdateUIInteractivity();
+    }
+
     private void UpdateUIInteractivity()
     {
-        if (generatorSyncPanel != null && generatorSyncPanel.isSynchronized)
+        if (GeneratorController.isGeneratorSynchronized)
         {
             activePowerSlider.interactable = true;
             reactivePowerSlider.interactable = true;
@@ -44,20 +43,12 @@ public class PowerSettingSlider : MonoBehaviour
     private void OnActivePowerValueChanged(float value)
     {
         activePowerValueText.text = value.ToString("0.00");
-        gridManager.activePowerDemand = value;
+        GridManager.realPowerDemand = value;
     }
 
     private void OnReactivePowerValueChanged(float value)
     {
         reactivePowerValueText.text = value.ToString("0.00");
-        gridManager.reactivePowerDemand = value;
-    }
-
-    private void Update()
-    {
-        if (generatorSyncPanel != null && generatorSyncPanel.isSynchronized)
-        {
-            UpdateUIInteractivity();
-        }
+        GridManager.reactivePowerDemand = value;
     }
 }

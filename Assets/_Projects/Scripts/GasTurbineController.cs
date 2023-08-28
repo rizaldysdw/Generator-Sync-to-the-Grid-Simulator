@@ -4,31 +4,29 @@ using UnityEngine;
 
 public class GasTurbineController : MonoBehaviour
 {
-    private AudioSource audioSource;
-
-    private GTGController controller;
+    public static bool isGasTurbineRunning;
+    public static float turbineRatedSpeed = 3000f;
+    public static float rpmDrop;
+    
+    public static float governorControlSpeed;
+    private float rotationSpeed;
 
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        controller = FindObjectOfType<GTGController>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        SetAudioState();
-    }
-
-    void SetAudioState()
-    {
-        if (controller.isRunning)
+        if (isGasTurbineRunning)
         {
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
+            // Calculate the target rotation speed based on the load demand and RPM drop
+            float targetRotationSpeed = turbineRatedSpeed + rpmDrop + governorControlSpeed;
+
+            // Gradually update the rotation speed towards the target rotation speed
+            rotationSpeed = Mathf.Lerp(rotationSpeed, targetRotationSpeed, 0.1f);
         }
     }
 }

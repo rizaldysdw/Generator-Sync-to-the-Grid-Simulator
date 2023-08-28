@@ -5,18 +5,11 @@ using UnityEngine.UI;
 
 public class GovernorControlButton : MonoBehaviour
 {
-    private GTGController gtgController;
-    public Button increaseButton;
-    public Button decreaseButton;
+    [SerializeField] private Button increaseButton;
+    [SerializeField] private Button decreaseButton;
 
     private float increaseValue = 1f;
     private float decreaseValue = 1f;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        gtgController = FindObjectOfType<GTGController>();
-    }
 
     // Update is called once per frame
     void Update()
@@ -26,25 +19,25 @@ public class GovernorControlButton : MonoBehaviour
 
     private void UpdateButtonInteractableState()
     {
-        increaseButton.interactable = !gtgController.isGeneratorTripped;
-        decreaseButton.interactable = !gtgController.isGeneratorTripped;
+        increaseButton.interactable = !GasTurbineController.isGasTurbineRunning;
+        decreaseButton.interactable = !GasTurbineController.isGasTurbineRunning;
     }
 
     public void IncreaseGovernorControl()
     {
-        if (gtgController.isRunning)
+        if (GasTurbineController.isGasTurbineRunning)
         {
             // Increase the governor control value by increaseValue
-            gtgController.governorControlSpeed += increaseValue;
+            GasTurbineController.governorControlSpeed += increaseValue;
         }
     }
 
     public void DecreaseGovernorControl()
     {
-        if (gtgController.isRunning)
+        if (GasTurbineController.isGasTurbineRunning)
         {
             // Decrease the governor control value by decreaseValue
-            gtgController.governorControlSpeed -= decreaseValue;
+            GasTurbineController.governorControlSpeed -= decreaseValue;
         }
     }
 }

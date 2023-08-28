@@ -4,19 +4,11 @@ using UnityEngine;
 
 public class SynchroscopeController : MonoBehaviour
 {
-    public Transform needle; // Reference to the synchroscope needle GameObject
-    private GTGController gtgController; // Reference to the GTGController script
-    private GridManager gridManager; // Reference to the GridManager script
-    private GeneratorSyncPanel generatorSyncPanel; // Reference to the GeneratorSyncPanel script
-
-    private float rotationSpeed = 100f; // Speed at which the needle rotates
-
-    void Start()
-    {
-        gtgController = FindObjectOfType<GTGController>();
-        gridManager = FindObjectOfType<GridManager>();
-        generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
-    }
+    // Reference to the synchroscope needle GameObject
+    [SerializeField] private Transform needle; 
+    
+    // Speed at which the needle rotates
+    private float rotationSpeed = 100f; 
 
     void Update()
     {
@@ -25,17 +17,17 @@ public class SynchroscopeController : MonoBehaviour
 
     private void UpdateNeedleRotation()
     {
-        // Synchroscope behavior when Generator is tripped
-        if (gtgController.isRunning)
+        // Synchroscope behavior when Generator is not synchronized
+        if (GasTurbineController.isGasTurbineRunning)
         {
             // Compare the generator frequency with the grid frequency
-            if (!generatorSyncPanel.isSynchronized && gtgController.frequency > gridManager.frequency)
+            if (!GeneratorController.isGeneratorSynchronized && GeneratorController.frequency > GridManager.frequency)
             {
                 // Generator frequency is higher than grid frequency
                 // Rotate the synchroscope needle clockwise
                 needle.Rotate(0f, 0f, -rotationSpeed * Time.deltaTime);
             }
-            else if (!generatorSyncPanel.isSynchronized && gtgController.frequency < gridManager.frequency)
+            else if (!GeneratorController.isGeneratorSynchronized && GeneratorController.frequency < GridManager.frequency)
             {
                 // Generator frequency is lower than grid frequency
                 // Rotate the synchroscope needle counterclockwise

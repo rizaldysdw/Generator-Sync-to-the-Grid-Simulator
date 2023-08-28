@@ -3,10 +3,6 @@ using UnityEngine.UI;
 
 public class GeneratorMainCircuitBreakerButton : MonoBehaviour
 {
-    private GeneratorSyncPanel generatorSyncPanel; // Reference to the GeneratorSyncPanel script
-    private GridManager gridManager; // Reference to the GridManager script
-    private GTGController gtgController; // Reference to the GTGController script
-
     public Transform needle; // Reference to the synchroscope needle GameObject
     public Button closeButton; // Reference to the "Close" button
     public Button openButton; // Reference to the "Open" button
@@ -18,10 +14,6 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
     {
         closeButton.onClick.AddListener(OnCloseButtonClick);
         openButton.onClick.AddListener(OnOpenButtonClick);
-
-        gtgController = FindObjectOfType<GTGController>();
-        gridManager = FindObjectOfType<GridManager>();
-        generatorSyncPanel = FindObjectOfType<GeneratorSyncPanel>();
     }
 
     private void OnCloseButtonClick()
@@ -30,23 +22,25 @@ public class GeneratorMainCircuitBreakerButton : MonoBehaviour
         needleRotation = needle.rotation.eulerAngles.z;
         isNeedleInRange = needleRotation >= 330f || needleRotation <= 30f;
 
-        if (gtgController.frequency > gridManager.frequency && isNeedleInRange)
+        if (GeneratorController.frequency > GridManager.frequency && isNeedleInRange)
         {
-            generatorSyncPanel.isSynchronized = true;
+            GeneratorController.isGeneratorSynchronized = true;
             Debug.Log("Generator synchronized successfully!");
         }
         else
         {
-            gtgController.isRunning = false;
-            Debug.Log("Synchronization failed: Needle is not in the safe range. GTG Tripped!");
+            GasTurbineController.isGasTurbineRunning = false;
+            Debug.Log("Synchronization failed: Needle is not in the safe range. Gas Turbine Tripped!");
         }
     }
 
     private void OnOpenButtonClick()
     {
-        if (gtgController.powerOutput <= 0f && gtgController.reactivePowerOutput <= 0f && gtgController.frequency <= gridManager.frequency)
+        if (GeneratorController.realPowerOutput <= 0f &&
+        GeneratorController.reactivePowerOutput <= 0f &&
+        GeneratorController.frequency <= GridManager.frequency)
         {
-            generatorSyncPanel.isSynchronized = false;
+            GeneratorController.isGeneratorSynchronized = false;
             Debug.Log("Generator disconnected from the grid!");
         }
     }
