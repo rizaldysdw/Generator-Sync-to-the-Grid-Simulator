@@ -26,13 +26,36 @@ public class CSVWriter : MonoBehaviour
     {
         gtgController = FindObjectOfType<GTGController>();
 
-        // Set filename, folder path, and file path to save CSV file
+        // Set filename, folder path, and file path to save CSV file in the user's Documents directory
         fileName = $"Data_{DateTime.Now.ToString("yyyyMMddHHmmss")}.csv";
-        folderPath = Path.Combine(Application.dataPath, "Recordings", "Data");
+
+        // Get the path to the user's Documents directory
+        string documentsPath = GetDocumentsPath();
+
+        // Combine the Documents path with the desired folder and file names
+        folderPath = Path.Combine(documentsPath, "Recordings", "Data");
         filePath = Path.Combine(folderPath, fileName);
 
         // Uncomment this line to start recording immediately when the scene starts
         // StartRecording();
+    }
+
+    string GetDocumentsPath()
+    {
+        string documentsPath = "";
+
+        // Determine the platform and set the Documents path accordingly
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        }
+        else if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer ||
+                 Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.LinuxPlayer)
+        {
+            documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+        }
+
+        return documentsPath;
     }
 
     // Update is called once per frame
